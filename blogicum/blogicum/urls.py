@@ -1,4 +1,4 @@
-"""blog URL Configuration
+"""blogicum URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.2/topics/http/urls/
@@ -18,7 +18,4 @@ from django.urls import path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.index, name='blog:index'),
-    path('posts/<int:id>/', views.post_detail, name='blog:post_detail'),
-    path('category/<slug:category_slug>/', views.category_posts, name='category_posts'),
 ]
