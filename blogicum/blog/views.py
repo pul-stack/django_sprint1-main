@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import Http404
 
 posts = [
     {
@@ -14,7 +15,7 @@ posts = [
                 который назвал островом Отчаяния.''',
     },
     {
-        'id': 1, 
+        'id': 1,
         'location': 'Остров отчаянья',
         'date': '1 октября 1659 года',
         'category': 'not-my-day',
@@ -31,7 +32,7 @@ posts = [
     },
     {
         'id': 2,
-        'location': 'Остров отчаянья', 
+        'location': 'Остров отчаянья',
         'date': '25 октября 1659 года',
         'category': 'not-my-day',
         'text': '''Всю ночь и весь день шёл дождь и дул сильный
@@ -43,31 +44,32 @@ posts = [
     },
 ]
 
+
 def index(request):
-    # Передаем посты в ИНВЕРТИРОВАННОМ порядке (без добавления новых полей)
     context = {'posts': posts[::-1]}
     return render(request, 'blog/index.html', context)
 
+
 def post_detail(request, id):
-    # Находим пост по id (без изменений в данных)
     post = None
     for p in posts:
         if p['id'] == id:
             post = p
             break
-    
+
     if post is None:
-        from django.http import Http404
         raise Http404("Пост не найден")
-    
+
     context = {'post': post}
     return render(request, 'blog/detail.html', context)
 
+
 def category_posts(request, category_slug):
-    # Фильтруем посты по категории и инвертируем порядок
-    filtered_posts = [post for post in posts if post['category'] == category_slug]
+    filtered_posts = [
+        post for post in posts if post['category'] == category_slug
+    ]
     context = {
         'category': category_slug,
-        'posts': filtered_posts[::-1]  # инвертируем порядок
+        'posts': filtered_posts[::-1]
     }
     return render(request, 'blog/category.html', context)
